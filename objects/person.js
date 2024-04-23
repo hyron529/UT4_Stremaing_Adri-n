@@ -8,16 +8,14 @@ class Person{
     #born;
     #picture;
 
-    constructor(name, lastanme1, born){
+    constructor(name, lastname1, born){
 
         if (name === "" || name === undefined) throw new FailedEmptyException();
-        if (lastanme1 === "" || lastanme1 === undefined) throw new FailedEmptyException();
-        if (born === "" || born === undefined) throw new FailedEmptyException();
 
         if(!(new.target === Person)) throw new FailedObjTypeException("Person");
 
         this.#name = name;
-        this.#lastname1 = lastanme1;
+        this.#lastname1 = lastname1;
         this.#lastname2 = null;
         this.#born = born;
         this.#picture = null;
@@ -27,7 +25,7 @@ class Person{
         return this.#name;
     }
 
-    get lastanme1() {
+    get lastname1() {
         return this.#lastname1;
     }
 
@@ -48,7 +46,7 @@ class Person{
         this.#name = value;
     }
 
-    set lastanme1(value) {
+    set lastname1(value) {
         if (value === undefined || value === "") throw new FailedEmptyException("lastname1");
         this.#lastname1 = value;
     }

@@ -1,18 +1,17 @@
 "use strict";
-import {FailedEmptyException, FailedObjTypeException} from "../js/exception.js";
-class Production{
 
+import { FailedEmptyException } from "../js/exception.js";
+
+class Production {
     #title;
     #nationality;
     #publication;
     #synopsis;
     #image;
 
-    constructor(title, publication){
-
+    constructor(title, publication) {
         if (title === "" || title === undefined) throw new FailedEmptyException("title");
         if (publication === "" || publication === undefined) throw new FailedEmptyException("publication");
-        if (!(new.target === Production)) throw new FailedObjTypeException("Production");
 
         this.#title = title;
         this.#nationality = null;
@@ -66,9 +65,9 @@ class Production{
         this.#image = value;
     }
 
-    toString(){
+    toString() {
         return `Titulo: ${this.#title}, Nacionalidad: ${this.#nationality}, Publicación: ${this.#publication}, Sinópsis: ${this.#synopsis}, Imagen: ${this.#image}`;
     }
 }
 
-export {Production};
+export { Production };

@@ -2,17 +2,16 @@
 
 import { Production } from "./production.js";
 import { Resource } from "./resource.js";
-import {FailedEmptyException} from "../js/exception.js";
+import { FailedEmptyException } from "../js/exception.js";
 
-class Movie extends Production{
-
-    #locations = [];
+class Movie extends Production {
+    #locations;
     #resource;
 
-    constructor(locations, resource){
-        super(title, nationality, publication, synopsis, image);
-
-        if(!(resource instanceof Resource)) throw new FailedEmptyException();
+    constructor(title, publication, locations, resource) {
+        super(title, publication);
+        
+        if (!(resource instanceof Resource)) throw new FailedEmptyException("resource");
 
         this.#locations = locations;
         this.#resource = resource;
@@ -21,6 +20,7 @@ class Movie extends Production{
     get resource() {
         return this.#resource;
     }
+
     get locations() {
         return this.#locations;
     }
@@ -35,7 +35,9 @@ class Movie extends Production{
         this.#locations = value;
     }
 
-    toString(){
-        return super.toString() + ` / ${this.#resource}, Lugar: ${this.#locations}`;
+    toString() {
+        return super.toString() + `, Resource: ${this.#resource.toString()}, Locations: ${this.#locations.toString()}`;
     }
 }
+
+export { Movie };
