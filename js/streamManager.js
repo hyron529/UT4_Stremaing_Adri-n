@@ -396,7 +396,7 @@ const StreamManager = (function () {
                 if (this.getProdPos(prod, this.#actors[positionAct].productions) === -1)
                     this.#actors[positionAct].productions.push(this.#productions[positionProd]);
             }
-            console.log("El actor " +actor.name+ " " +actor.lastname1+ " ha sido añadido a la producción " +prod.title);
+            console.log("El actor " + actor.name + " " + actor.lastname1 + " ha sido añadido a la producción " + prod.title);
         }
 
         //método que desasigna un actor de una produccion
@@ -421,8 +421,53 @@ const StreamManager = (function () {
             } else {
                 throw new FailedNotExistException();
             }
-            console.log("El actor " +actor.name+ " " +actor.lastname1+ " ha sido eliminado de la producción " +prod.title);
+            console.log("El actor " + actor.name + " " + actor.lastname1 + " ha sido eliminado de la producción " + prod.title);
             return this.#actors[positionAct].productions.length;
+        }
+
+        //iterador para obtener las producciones de un director
+        //vemos si es una persona y obtenemos la posición del array
+        //en una variable definimos el array de directores con el de producciones
+        //se recorren los elementos obtenidos con yield
+        * getProductionsDirector(dir) {
+            if ((!(dir instanceof Person)) || (dir == null)) throw new FailedObjTypeException();
+            let positionDir = this.getDirPos(dir);
+            if (positionDir === -1) throw new FailedNotExistException();
+
+            let dirList = this.#directors[positionDir].productions;
+            for (let direc of dirList) {
+                yield direc;
+            }
+        }
+
+        //iterador para obtener las producciones de un actor
+        //vemos si es una persona y obtenemos la posición del array
+        //en una variable definimos el array de actores con el de producciones
+        //se recorren los elementos obtenidos con yield
+        * getProductionsActor(actor) {
+            if ((!(actor instanceof Person)) || (actor == null)) throw new FailedObjTypeException();
+            let positionAct = this.getActPos(actor);
+            if (positionAct === -1) throw new FailedNotExistException();
+
+            let actList = this.#actors[positionAct].productions;
+            for (let ac of actList) {
+                yield ac;
+            }
+        }
+
+        //iterador para obtener las producciones de una categoría
+        //vemos si es una persona y obtenemos la posición del array
+        //en una variable definimos el array de categorías con el de producciones
+        //se recorren los elementos obtenidos con yield
+        * getProductionsCategory(cat) {
+            if (!(cat instanceof Category)) throw new FailedObjTypeException();
+            let positionCat = this.getCatPos(cat);
+            if (positionCat === -1) throw new FailedNotExistException();
+
+            let catList = this.#categories[positionCat].productions;
+            for (let cat of catList) {
+                yield cat;
+            }
         }
 
     }
