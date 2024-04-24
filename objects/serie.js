@@ -1,6 +1,6 @@
 "use strict";
 
-import { Production } from "./production";
+import { Production } from "./production.js";
 import { Resource } from "./resource.js";
 import {FailedEmptyException, FailedObjTypeException} from "../js/exception.js";
 
@@ -10,10 +10,10 @@ class Serie extends Production{
     #locations;
     #seasons;
 
-    constructor(resource, locations, seasons){
+    constructor(resource, locations, seasons, title, link, publication, synopsis, image){
         super(title, link, publication, synopsis, image);
 
-        if(!(resource instanceof Resource)) throw new FailedEmptyException();
+        if (!(resource instanceof Resource)) throw new FailedObjTypeException();
         
         this.#resource = resource;
         this.#locations = locations;

@@ -8,8 +8,8 @@ class Movie extends Production {
     #locations;
     #resource;
 
-    constructor(title, publication, locations, resource) {
-        super(title, publication);
+    constructor(title, nationality, publication, synopsis, image, locations, resource) {
+        super(title, nationality, publication, synopsis, image);
         
         if (!(resource instanceof Resource)) throw new FailedEmptyException("resource");
 

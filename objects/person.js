@@ -11,7 +11,6 @@ class Person{
     constructor(name, lastname1, born){
 
         if (name === "" || name === undefined) throw new FailedEmptyException();
-
         if(!(new.target === Person)) throw new FailedObjTypeException("Person");
 
         this.#name = name;

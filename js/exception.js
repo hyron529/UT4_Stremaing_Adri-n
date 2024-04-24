@@ -57,4 +57,16 @@ class FailedExistException extends BaseException {
     }
 }
 
-export {FailedExistException ,FailedEmptyException, FailedObjTypeException, FailedValueException};
+class FailedNotExistException extends BaseException {
+    constructor(value, fileName, fileNumber) {
+        super(
+            `Error. El objeto no existe en la lista.`,
+            fileName,
+            fileNumber
+        );
+        this.name = "FailedNotExistException";
+        this.value = value;
+    }
+}
+
+export {FailedExistException ,FailedEmptyException, FailedObjTypeException, FailedValueException, FailedNotExistException};
