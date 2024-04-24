@@ -1,3 +1,4 @@
+"use strict";
 //importamos las clases de todos los objetos y el manager
 
 import {Category} from "../objects/category.js";
@@ -8,7 +9,7 @@ import {User} from "../objects/user.js";
 import {Movie} from "../objects/movie.js";
 import {Serie} from "../objects/serie.js";
 import {Production} from "../objects/production.js";
-import StreamManager from "../js/streamManager.js";
+import {StreamManager} from "../js/streamManager.js";
 
 //función para testear objetos y métodos creados
 function streamTest(){
@@ -70,6 +71,40 @@ function streamTest(){
     //comprobación del método eliminar usuario
     instance.removeUser(user);
     console.log(instance);
+
+    //comprobación del método para añadir una producción
+    //añadimos en este caso una peli y una serie
+    instance.addProduction(movie);
+    instance.addProduction(serie);
+    console.log(instance);
+
+    //comprobación del método eliminar producción
+    instance.removeProduction(movie);
+    console.log(instance);
+
+    //comprobación del método para añadir un actor
+    instance.addActor(person);
+    console.log(instance);
+
+    //comprobación del método eliminar actor
+   // instance.removeActor(person);
+    //console.log(instance);
+
+    //comprobación del método para añadir un director
+    instance.addDirector(person2);
+    console.log(instance);
+
+    //comprobación del método eliminar director
+    instance.removeDirector(person2);
+    console.log(instance);
+
+    //comprobación para añadir producción a categoría
+    //pero volvemos a añadir la categoria
+    instance.addCategory(category);
+    instance.assignCategory(category, serie);
+    console.log(instance);
+
+    
 }
 
 streamTest();
