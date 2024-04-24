@@ -104,7 +104,18 @@ function streamTest(){
     instance.assignCategory(category, serie);
     console.log(instance);
 
-    
+    //comprobacion de desasignación de producción de categoría
+    instance.deassignCategory(category, serie);
+
+    //comprobación para añadir un director a una producción
+    instance.assignDirector(person2, serie); 
+    instance.deassignDirector(person2, serie);
+
+    //comprobación para añadir un actor a una producción
+    //instance.addActor(person);
+    //instance.addProduction(movie);
+    //instance.assignActor(person, movie); 
+    //instance.deassignActor(person, movie);
 }
 
 streamTest();
