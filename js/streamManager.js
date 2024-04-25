@@ -17,7 +17,6 @@ const StreamManager = (function () {
         #productions = [];
         #actors = [];
         #directors = [];
-        #windows = [];
 
         constructor(name = "Streaming 4 You") {
 
@@ -52,23 +51,27 @@ const StreamManager = (function () {
         //método para obtener la posición en la que se encuentra el objeto
         // director en su array correspondiente, vemos si es Person y comparamos el contenido
         // del objeto de la lista con el del parámetro
-        getDirPos(elem) {
-            if (!(elem instanceof Person)) throw new FailedObjTypeException();
-            function compare(direc) {
-                return ((direc.director.name === elem.name) && (direc.director.lastname1 === elem.lastname1))
+        getDirPos(dir) {
+            if (!(dir instanceof Person)) throw new FailedObjTypeException();
+            for (let i=0; i<this.#directors.length; i++) {
+                if (this.#directors[i].directrors.name === dir.name) {
+                    return i;
+                }
             }
-            return this.#directors.findIndex(compare);
+            return -1;
         }
 
         //método para obtener la posición en la que se encuentra el objeto
         // actor en su array correspondiente, vemos si es Person y comparamos el contenido
         // del objeto de la lista con el del parámetro
-        getActPos(elem) {
-            if (!(elem instanceof Person)) throw new FailedObjTypeException();
-            function compare(act) {
-                return ((act.actor.name === elem.name) && (act.actor.lastname1 === elem.lastname1));
+        getActPos(act) {
+            if (!(act instanceof Person)) throw new FailedObjTypeException();
+            for (let i = 0; i < this.#actors.length; i++) {
+                if (this.#actors[i].actors.name === act.name) {
+                    return i;
+                }
             }
-            return this.#actors.findIndex(compare);
+            return -1;
         }
 
         //método para obtener la posición de una producción
@@ -198,7 +201,7 @@ const StreamManager = (function () {
                 throw new FailedExistException();
             }
         }
-        /*
+        
         //método que elimina un actor, comprbamos que es el mismo tipo de objeto
         // y obtenemos la posición para poder eliminarlo
         removeActor(elem) {
@@ -214,7 +217,7 @@ const StreamManager = (function () {
                 throw new FailedNotExistException();
             }
         }
-        */
+        
 
         //método que añade directores a la lista, obtenemos la posición del actor
         // y lo añadimos al array que contiene a los directores
@@ -298,7 +301,7 @@ const StreamManager = (function () {
             if (!(prod instanceof Production)) throw new FailedObjTypeException();
 
             let positionCat = this.getCatPos(cat);
-            let pro = this.#categories[positionCat].products;
+            let pro = this.#categories[positionCat].productions;
 
             let positionProd = this.getProdPos(prod, pro);
             if (positionCat !== -1) {
@@ -306,7 +309,7 @@ const StreamManager = (function () {
                     this.#categories[positionCat].productions.splice(positionProd, 1);
 
                 } else {
-                    throw FailedNotExistException();
+                    throw new FailedNotExistException();
                 }
             } else {
                 throw FailedNotExistException();
@@ -347,6 +350,7 @@ const StreamManager = (function () {
         //comprobamos que se trata de los objetos adecuados y obtenemos las 
         //posiciones de cada uno en sus arrays, y si lo encuentra, entonces
         //se podrá eliminar
+        /*
         deassignDirector(dir, prod) {
             if (!(dir instanceof Person)) throw new FailedObjTypeException();
             if (!(prod instanceof Production)) throw new FailedObjTypeException();
@@ -368,6 +372,7 @@ const StreamManager = (function () {
             console.log("El director " + dir.name + " " + dir.lastname1 + " ha sido eliminado de " + prod.title);
             return this.#directors[positionDir].productions.length;
         }
+        */
 
         //método que añade un actor a una produccion
         // comprobamos que es una persona y almacenamos el array de producciones
@@ -408,7 +413,7 @@ const StreamManager = (function () {
             if (!(prod instanceof Production)) throw new FailedObjTypeException();
 
             let positionAct = this.getActPos(actor);
-            let pro = this.#actors[positionAct].products;
+            let pro = this.#actors[positionAct].productions;
             let positionProd = this.getProdPos(prod, pro);
 
             if (positionAct !== -1) {

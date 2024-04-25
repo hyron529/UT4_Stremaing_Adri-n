@@ -87,7 +87,7 @@ function streamTest(){
     console.log(instance);
 
     //comprobación del método eliminar actor
-   // instance.removeActor(person);
+    instance.removeActor(person);
     //console.log(instance);
 
     //comprobación del método para añadir un director
@@ -95,7 +95,7 @@ function streamTest(){
     console.log(instance);
 
     //comprobación del método eliminar director
-    instance.removeDirector(person2);
+    //instance.removeDirector(person2);
     console.log(instance);
 
     //comprobación para añadir producción a categoría
@@ -105,16 +105,16 @@ function streamTest(){
     console.log(instance);
 
     //comprobacion de desasignación de producción de categoría
-    instance.deassignCategory(category, serie);
+    //instance.deassignCategory(category, serie);
 
     //comprobación para añadir un director a una producción
-    instance.assignDirector(person2, serie); 
-    instance.deassignDirector(person2, serie);
+    //instance.assignDirector(person2, serie); 
+    //instance.deassignDirector(person2, serie);
 
     //comprobación para añadir un actor a una producción
-    //instance.addActor(person);
-    //instance.addProduction(movie);
-    //instance.assignActor(person, movie); 
+    instance.addActor(person2);
+    instance.addProduction(movie);
+    instance.assignActor(person2, movie); 
     //instance.deassignActor(person, movie);
 }
 

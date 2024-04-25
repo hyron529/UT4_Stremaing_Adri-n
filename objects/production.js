@@ -2,6 +2,7 @@
 
 import { FailedEmptyException } from "../js/exception.js";
 
+//creacion de la calse production
 class Production {
     #title;
     #nationality;
@@ -9,6 +10,8 @@ class Production {
     #synopsis;
     #image;
 
+    //constructor de production, comprobamos que se introducen los atributos
+    //correctamente y definimos sus caracteríaticas
     constructor(title, publication) {
         if (title === "" || title === undefined) throw new FailedEmptyException("title");
         if (publication === "" || publication === undefined) throw new FailedEmptyException("publication");
@@ -20,6 +23,7 @@ class Production {
         this.#image = null;
     }
 
+    //getters y setters
     get title() {
         return this.#title;
     }
@@ -65,6 +69,7 @@ class Production {
         this.#image = value;
     }
 
+    //tostring para mostrar por consola los valores del objeto
     toString() {
         return `Titulo: ${this.#title}, Nacionalidad: ${this.#nationality}, Publicación: ${this.#publication}, Sinópsis: ${this.#synopsis}, Imagen: ${this.#image}`;
     }
