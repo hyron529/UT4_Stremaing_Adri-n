@@ -1,18 +1,18 @@
 "use strict";
 //importamos las clases de todos los objetos y el manager
 
-import {Category} from "../objects/category.js";
+import { Category } from "../objects/category.js";
 import { Person } from "../objects/person.js";
-import {Resource} from "../objects/resource.js";
-import {Coordinate} from "../objects/coordinate.js";
-import {User} from "../objects/user.js";
-import {Movie} from "../objects/movie.js";
-import {Serie} from "../objects/serie.js";
-import {Production} from "../objects/production.js";
-import {StreamManager} from "../js/streamManager.js";
+import { Resource } from "../objects/resource.js";
+import { Coordinate } from "../objects/coordinate.js";
+import { User } from "../objects/user.js";
+import { Movie } from "../objects/movie.js";
+import { Serie } from "../objects/serie.js";
+import { Production } from "../objects/production.js";
+import { StreamManager } from "../js/streamManager.js";
 
 //función para testear objetos y métodos creados
-function streamTest(){
+function streamTest() {
 
     console.log("<<<<< CREACIÓN DE OBJETOS >>>>>");
     console.log(" ");
@@ -35,7 +35,7 @@ function streamTest(){
     let resource = new Resource("120", "aaaaaa");
     console.log(resource.toString());
 
-    let coordinate = new Coordinate(60,64);
+    let coordinate = new Coordinate(60, 64);
     console.log(coordinate.toString());
 
     let user = new User("Adrián", "Adrian@gmail.com", "adrianNN");
@@ -61,6 +61,7 @@ function streamTest(){
     console.log(instance);
 
     //comprobación del método eliminar categoría
+    console.log(category)
     instance.removeCategory(category);
     console.log(instance);
 
@@ -105,7 +106,7 @@ function streamTest(){
     console.log(instance);
 
     //comprobacion de desasignación de producción de categoría
-    //instance.deassignCategory(category, serie);
+    instance.deassignCategory(category, serie);
 
     //comprobación para añadir un director a una producción
     //instance.assignDirector(person2, serie); 
@@ -114,8 +115,58 @@ function streamTest(){
     //comprobación para añadir un actor a una producción
     instance.addActor(person2);
     instance.addProduction(movie);
-    instance.assignActor(person2, movie); 
+    instance.addProduction(serie);
+    instance.assignActor(person2, movie);
+    console.log(instance);
     //instance.deassignActor(person, movie);
+
+    instance.assignCategory(category, serie, movie);
+    console.log(instance);
+    instance.deassignCategory(category, serie);
+    console.log(instance);
+
+    instance.assignDirector(person2, movie);
+    console.log(instance);
+
+    instance.deassignDirector(person2, movie);
+    console.log(instance);
+
+    instance.assignDirector(person2, movie);
+    console.log(instance);
+
+    instance.assignActor(person, serie);
+    console.log(instance);
+
+    instance.deassignActor(person, serie);
+    console.log(instance);
+
+    console.log(" ");
+    console.log("<<<<< PRUEBAS CON ITERADORES >>>>>");
+    console.log(" ");
+
+    console.log("Producciones del director: " + person2.name + " " + person2.lastname1);
+    for (const production of instance.getProductionsDirector(person2)) {
+        console.log(production.title);
+    }
+
+    console.log(" ");
+    instance.assignActor(person, serie);
+    console.log(instance);
+
+    console.log(" ");
+
+    console.log("Producciones del actor: " + person.name + " " + person.lastname1);
+    for (const production of instance.getProductionsActor(person)) {
+        console.log(production.title);
+    }
+
+    console.log(" ");
+
+    console.log("Producciones de la categoría: " + category.name);
+    for (const production of instance.getProductionsCategory(category)) {
+        console.log(production.title);
+    }
+
 }
 
 streamTest();
