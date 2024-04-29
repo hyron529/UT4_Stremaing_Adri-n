@@ -69,4 +69,16 @@ class FailedNotExistException extends BaseException {
     }
 }
 
-export {FailedExistException ,FailedEmptyException, FailedObjTypeException, FailedValueException, FailedNotExistException};
+class FailedIsAssignedException extends BaseException {
+    constructor(value, fileName, fileNumber) {
+        super(
+            `Error. El elemento que desea se encuentra seleccionado.`,
+            fileName,
+            fileNumber
+        );
+        this.name = "FailedIsAssignedException";
+        this.value = value;
+    }
+}
+
+export {FailedIsAssignedException, FailedExistException ,FailedEmptyException, FailedObjTypeException, FailedValueException, FailedNotExistException};

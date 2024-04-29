@@ -1,5 +1,5 @@
 "use strict";
-import { FailedExistException, FailedEmptyException, FailedObjTypeException, FailedNotExistException } from "./exception.js";
+import { FailedIsAssignedException, FailedExistException, FailedEmptyException, FailedObjTypeException, FailedNotExistException } from "./exception.js";
 import { Category } from "../objects/category.js";
 import { User } from "../objects/user.js";
 import { Production } from "../objects/production.js";
@@ -52,14 +52,14 @@ const StreamManager = (function () {
         // del objeto de la lista con el del parámetro
         getDirPos(dir) {
             if (!(dir instanceof Person)) throw new FailedObjTypeException();
-            for (let i=0; i<this.#directors.length; i++) {
+            for (let i = 0; i < this.#directors.length; i++) {
                 if (this.#directors[i].director === dir) {
                     return i;
                 }
             }
             return -1;
         }
-        
+
 
         //método para obtener la posición en la que se encuentra el objeto
         // actor en su array correspondiente, vemos si es Person y comparamos el contenido
@@ -76,12 +76,12 @@ const StreamManager = (function () {
 
         //método para obtener la posición de una producción
         getProdPos(production) {
-                for (let i = 0; i < this.#productions.length; i++) {
-                    if (this.#productions[i].name === production.name) {
-                        return i;
-                    }
+            for (let i = 0; i < this.#productions.length; i++) {
+                if (this.#productions[i].name === production.name) {
+                    return i;
                 }
-                return -1;
+            }
+            return -1;
         }
 
         //método para obtener la posición en la que se encuentra
@@ -203,7 +203,7 @@ const StreamManager = (function () {
                 throw new FailedExistException();
             }
         }
-        
+
         //método que elimina un actor, comprbamos que es el mismo tipo de objeto
         // y obtenemos la posición para poder eliminarlo
         removeActor(elem) {
@@ -219,7 +219,7 @@ const StreamManager = (function () {
                 throw new FailedNotExistException();
             }
         }
-        
+
 
         //método que añade directores a la lista, obtenemos la posición del actor
         // y lo añadimos al array que contiene a los directores
@@ -262,8 +262,8 @@ const StreamManager = (function () {
         //método que añade una producción a una categoría
         // comprobamos que es una categoría y almacenamos el array de producciones
         // obtenemos la posicion de la producción y la categoría
-        // si es igual a -1 no existe, así que la añadimos a la lista y comprobamos
-        // que ha sido asignado
+        // obtenemos el array de producciones de su categoria en la posicion encontrada
+        // iteramos en el array prods, comprobamos, obtenemos su posicion para verificar si esta o no
         assignCategory(cat, ...prods) {
             if (!(cat instanceof Category)) throw new FailedObjTypeException();
 
@@ -275,14 +275,14 @@ const StreamManager = (function () {
 
             // Obtenemos el array de producciones de la categoria indicada
             let arrayCategoryProductions = this.#categories[categoryPosition].productions;
-        
+
 
             // Recorremos el encadenamiento de producciones para obtenerlas
             prods.forEach(prod => {
                 if (!(prod instanceof Production)) throw new FailedObjTypeException();
-                
+
                 let productionPosition = this.getProdPos(prod);
-        
+
                 // Si la producción no está en la lista, la añadimos
                 if (productionPosition === -1) {
                     this.addProduction(prod);
@@ -293,35 +293,38 @@ const StreamManager = (function () {
                 } else {
                     arrayCategoryProductions.forEach(production => {
                         console.log("entro")
-                        if (prod.title === production.title) throw new Error("La produccion ya esta asignada a esta categoria");
-    
+                        if (prod.title === production.title) throw new FailedIsAssignedException();
+
                         arrayCategoryProductions.push(prod);
                     });
                 }
             });
-        
+
             console.log(`Producciones asignadas a la categoría ${cat.name}.`);
 
             return this;
         }
-        
+
 
         //método que desasigna una producción de una categoria
         //comprobamos que se trata de los objetos adecuados y obtenemos las 
         //posiciones de cada uno en sus arrays, y si lo encuentra, entonces
-        //se podrá eliminar
+        //se podrá eliminar, primero obtenemos la posicion de la categoria y comprobamos su
+        //existencia, obtenemos el array de producciones de su categoria en la posicion encontrada, y 
+        //despues comprobamos que el array no este vacio, recorremos el array creado y comprobamos
+        //que el titulo de la produccion del array coincide con el introducido por parametro
         deassignCategory(cat, prod) {
             if (!(cat instanceof Category)) throw new FailedObjTypeException();
             if (!(prod instanceof Production)) throw new FailedObjTypeException();
-        
+
             let categoryPosition = this.getCatPos(cat);
             if (categoryPosition === -1) throw new FailedNotExistException();
 
             let arrayCategoryProductions = this.#categories[categoryPosition].productions;
-        
-            if (arrayCategoryProductions.length === 0) throw new Error("La produccion de esta categoria esta vacia");
 
-            for(let i = 0; i < arrayCategoryProductions.length; i++) {
+            if (arrayCategoryProductions.length === 0) throw new FailedEmptyException();
+
+            for (let i = 0; i < arrayCategoryProductions.length; i++) {
                 if (arrayCategoryProductions[i].title === prod.title) {
                     arrayCategoryProductions.splice(i, 1);
                 }
@@ -329,128 +332,128 @@ const StreamManager = (function () {
         }
 
         //método que añade un director a una produccion
-        // comprobamos que es una persona y almacenamos el array de producciones
-        // obtenemos la posicion del person y la producción
-        // si es igual a -1 no existe, así que la añadimos a la lista y comprobamos
-        // que ha sido asignado
+        // comprobamos que es una categoría y almacenamos el array de producciones
+        // obtenemos la posicion de la producción y la categoría
+        // obtenemos el array de producciones de su categoria en la posicion encontrada
+        // iteramos en el array prods, comprobamos, obtenemos su posicion para verificar si esta o no
         assignDirector(dir, ...prods) {
             if (!(dir instanceof Person)) throw new FailedObjTypeException();
-        
+
             let directorPosition = this.getDirPos(dir);
             if (directorPosition === -1) {
                 this.addDirector(dir);
                 directorPosition = this.getDirPos(dir);
             }
-        
+
             let arrayDirProductions = this.#directors[directorPosition].productions;
-        
+
             prods.forEach(prod => {
                 if (!(prod instanceof Production)) throw new FailedObjTypeException();
-        
+
                 let productionPosition = this.getProdPos(prod);
-        
+
                 if (productionPosition === -1) {
                     this.addProduction(prod);
                 }
-        
+
                 if (arrayDirProductions.length === 0) {
                     arrayDirProductions.push(prod);
                 } else {
                     arrayDirProductions.forEach(production => {
-                        if (prod.title === production.title) throw new Error("La producción ya está asignada a este director");
+                        if (prod.title === production.title) throw new FailedIsAssignedException();
                     });
                     arrayDirProductions.push(prod);
                 }
             });
-        
+
             console.log(`Producciones asignadas al director ${dir.name}.`);
             return this;
         }
-        
-        
-        
-        
+
+
+
+
         // Método para desasignar una producción de un director
         deassignDirector(dir, prod) {
             if (!(dir instanceof Person)) throw new FailedObjTypeException();
             if (!(prod instanceof Production)) throw new FailedObjTypeException();
-        
+
             let directorPosition = this.getDirPos(dir);
             if (directorPosition === -1) throw new FailedNotExistException();
-        
+
             let arrayDirProductions = this.#directors[directorPosition].productions;
-        
-            if (arrayDirProductions.length === 0) throw new Error("El director no tiene producciones asignadas");
-        
-            for(let i = 0; i < arrayDirProductions.length; i++) {
+
+            if (arrayDirProductions.length === 0) throw new FailedEmptyException();
+
+            for (let i = 0; i < arrayDirProductions.length; i++) {
                 if (arrayDirProductions[i].title === prod.title) {
                     arrayDirProductions.splice(i, 1);
                     break;
                 }
             }
         }
-        
-        
+
+
 
         //método que añade un actor a una produccion
-        // comprobamos que es una persona y almacenamos el array de producciones
-        // obtenemos la posicion del person y la producción
-        // si es igual a -1 no existe, así que la añadimos a la lista y comprobamos
-        // que ha sido asignado
+        // comprobamos que es una categoría y almacenamos el array de producciones
+        // obtenemos la posicion de la producción y la categoría
+        // obtenemos el array de producciones de su categoria en la posicion encontrada
+        // iteramos en el array prods, comprobamos, obtenemos su posicion para verificar si esta o no
         assignActor(actor, ...prods) {
             if (!(actor instanceof Person)) throw new FailedObjTypeException();
-        
+
             let actorPosition = this.getActPos(actor);
             if (actorPosition === -1) {
                 this.addActor(actor);
                 actorPosition = this.getActPos(actor);
             }
-        
+
             let arrayActProductions = this.#actors[actorPosition].productions;
-        
+
             prods.forEach(prod => {
                 if (!(prod instanceof Production)) throw new FailedObjTypeException();
-        
+
                 let productionPosition = this.getProdPos(prod);
-        
+
                 if (productionPosition === -1) {
                     this.addProduction(prod);
                 }
-        
+
                 if (arrayActProductions.length === 0) {
                     arrayActProductions.push(prod);
                 } else {
                     arrayActProductions.forEach(production => {
-                        if (prod.title === production.title) throw new Error("La producción ya está asignada a este actor");
+                        if (prod.title === production.title) throw new FailedIsAssignedException();
                     });
                     arrayActProductions.push(prod);
                 }
             });
-        
+
             console.log(`Producciones asignadas al actor ${actor.name}.`);
             return this;
         }
-        
+
         // Método para desasignar una producción de un actor
         deassignActor(actor, prod) {
             if (!(actor instanceof Person)) throw new FailedObjTypeException();
             if (!(prod instanceof Production)) throw new FailedObjTypeException();
-        
+
             let actorPosition = this.getActPos(actor);
             if (actorPosition === -1) throw new FailedNotExistException();
-        
+
             let arrayActProductions = this.#actors[actorPosition].productions;
-        
-            if (arrayActProductions.length === 0) throw new Error("El actor no tiene producciones asignadas");
-        
-            for(let i = 0; i < arrayActProductions.length; i++) {
+
+            if (arrayActProductions.length === 0) throw new FailedEmptyException();
+
+            for (let i = 0; i < arrayActProductions.length; i++) {
                 if (arrayActProductions[i].title === prod.title) {
                     arrayActProductions.splice(i, 1);
                     break;
                 }
             }
         }
-        
+
 
         //iterador para obtener las producciones de un director
         //vemos si es una persona y obtenemos la posición del array

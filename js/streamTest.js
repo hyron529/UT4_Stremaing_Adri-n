@@ -89,14 +89,14 @@ function streamTest() {
 
     //comprobación del método eliminar actor
     instance.removeActor(person);
-    //console.log(instance);
+    console.log(instance);
 
     //comprobación del método para añadir un director
     instance.addDirector(person2);
     console.log(instance);
 
     //comprobación del método eliminar director
-    //instance.removeDirector(person2);
+    instance.removeDirector(person2);
     console.log(instance);
 
     //comprobación para añadir producción a categoría
@@ -108,23 +108,19 @@ function streamTest() {
     //comprobacion de desasignación de producción de categoría
     instance.deassignCategory(category, serie);
 
-    //comprobación para añadir un director a una producción
-    //instance.assignDirector(person2, serie); 
-    //instance.deassignDirector(person2, serie);
-
     //comprobación para añadir un actor a una producción
     instance.addActor(person2);
     instance.addProduction(movie);
     instance.addProduction(serie);
     instance.assignActor(person2, movie);
     console.log(instance);
-    //instance.deassignActor(person, movie);
 
     instance.assignCategory(category, serie, movie);
     console.log(instance);
     instance.deassignCategory(category, serie);
     console.log(instance);
 
+    //comprobación para añadir un director a una producción
     instance.assignDirector(person2, movie);
     console.log(instance);
 
@@ -134,6 +130,7 @@ function streamTest() {
     instance.assignDirector(person2, movie);
     console.log(instance);
 
+    //comprobación para añadir un actor a una producción
     instance.assignActor(person, serie);
     console.log(instance);
 
@@ -144,6 +141,7 @@ function streamTest() {
     console.log("<<<<< PRUEBAS CON ITERADORES >>>>>");
     console.log(" ");
 
+    //comprobación de iterador para ver qué producciones tiene el director seleccionado
     console.log("Producciones del director: " + person2.name + " " + person2.lastname1);
     for (const production of instance.getProductionsDirector(person2)) {
         console.log(production.title);
@@ -155,6 +153,7 @@ function streamTest() {
 
     console.log(" ");
 
+    //comprobación de iterador para ver qué producciones tiene el actor seleccionado
     console.log("Producciones del actor: " + person.name + " " + person.lastname1);
     for (const production of instance.getProductionsActor(person)) {
         console.log(production.title);
