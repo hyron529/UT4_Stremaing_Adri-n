@@ -1,5 +1,5 @@
 "use strict";
-import {FailedValueException} from "../js/exception.js";
+import {FailedValueException} from "../exception.js";
 
 class Coordinate {
 

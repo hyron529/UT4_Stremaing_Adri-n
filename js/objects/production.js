@@ -1,6 +1,6 @@
 "use strict";
 
-import { FailedEmptyException } from "../js/exception.js";
+import { FailedEmptyException } from "../exception.js";
 
 //creacion de la calse production
 class Production {
@@ -12,15 +12,15 @@ class Production {
 
     //constructor de production, comprobamos que se introducen los atributos
     //correctamente y definimos sus caracteríaticas
-    constructor(title, publication) {
+    constructor(title, nationality, publication, synopsis, image) {
         if (title === "" || title === undefined) throw new FailedEmptyException("title");
-        if (publication === "" || publication === undefined) throw new FailedEmptyException("publication");
+        //if (publication === "" || publication === undefined) throw new FailedEmptyException("publication");
 
         this.#title = title;
-        this.#nationality = null;
+        this.#nationality = nationality;
         this.#publication = publication;
-        this.#synopsis = null;
-        this.#image = null;
+        this.#synopsis = synopsis;
+        this.#image = image;
     }
 
     //getters y setters

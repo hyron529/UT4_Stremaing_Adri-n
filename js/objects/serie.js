@@ -2,16 +2,16 @@
 
 import { Production } from "./production.js";
 import { Resource } from "./resource.js";
-import {FailedEmptyException, FailedObjTypeException} from "../js/exception.js";
+import {FailedEmptyException, FailedObjTypeException} from "../exception.js";
 
 class Serie extends Production{
 
     #resource;
     #locations;
     #seasons;
-
-    constructor(resource, locations, seasons, title, link, publication, synopsis, image){
-        super(title, link, publication, synopsis, image);
+    
+    constructor(title, nationality, publication, synopsis, image, locations, resource, seasons){
+        super(title, nationality, publication, synopsis, image);
 
         if (!(resource instanceof Resource)) throw new FailedObjTypeException();
         

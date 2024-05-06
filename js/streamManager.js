@@ -1,9 +1,10 @@
 "use strict";
 import { FailedIsAssignedException, FailedExistException, FailedEmptyException, FailedObjTypeException, FailedNotExistException } from "./exception.js";
-import { Category } from "../objects/category.js";
-import { User } from "../objects/user.js";
-import { Production } from "../objects/production.js";
-import { Person } from "../objects/person.js";
+import { Category } from "./objects/category.js";
+import { User } from "./objects/user.js";
+import { Production } from "./objects/production.js";
+import { Actor } from "./objects/actor.js";
+import { Director } from "./objects/director.js";
 
 const StreamManager = (function () {
 
@@ -35,6 +36,30 @@ const StreamManager = (function () {
             }
         }
 
+        get actors() {
+            let list = this.#actors;
+
+            return {
+                *[Symbol.iterator]() {
+                    for (let actor of list) {
+                        yield actor;
+                    }
+                }
+            }
+        }
+
+        get directors() {
+            let list = this.#directors;
+
+            return {
+                *[Symbol.iterator]() {
+                    for (let director of list) {
+                        yield director;
+                    }
+                }
+            }
+        }
+
         get users() {
             let list = this.#users;
 
@@ -48,10 +73,10 @@ const StreamManager = (function () {
         }
 
         //método para obtener la posición en la que se encuentra el objeto
-        // director en su array correspondiente, vemos si es Person y comparamos el contenido
+        // director en su array correspondiente, vemos si es Director y comparamos el contenido
         // del objeto de la lista con el del parámetro
         getDirPos(dir) {
-            if (!(dir instanceof Person)) throw new FailedObjTypeException();
+            if (!(dir instanceof Director)) throw new FailedObjTypeException();
             for (let i = 0; i < this.#directors.length; i++) {
                 if (this.#directors[i].director === dir) {
                     return i;
@@ -62,10 +87,10 @@ const StreamManager = (function () {
 
 
         //método para obtener la posición en la que se encuentra el objeto
-        // actor en su array correspondiente, vemos si es Person y comparamos el contenido
+        // actor en su array correspondiente, vemos si es Actor y comparamos el contenido
         // del objeto de la lista con el del parámetro
         getActPos(act) {
-            if (!(act instanceof Person)) throw new FailedObjTypeException();
+            if (!(act instanceof Actor)) throw new FailedObjTypeException();
             for (let i = 0; i < this.#actors.length; i++) {
                 if (this.#actors[i].actors.name === act.name) {
                     return i;
@@ -77,10 +102,11 @@ const StreamManager = (function () {
         //método para obtener la posición de una producción
         getProdPos(production) {
             for (let i = 0; i < this.#productions.length; i++) {
-                if (this.#productions[i].name === production.name) {
+                if (this.#productions[i].title === production.title) {
                     return i;
                 }
             }
+
             return -1;
         }
 
@@ -96,7 +122,7 @@ const StreamManager = (function () {
             return -1;
         }
 
-        //método para añadir una categoría, conteolamos que sea un objeto de ese tipo
+        // método para añadir una categoría, conteolamos que sea un objeto de ese tipo
         // y obtenemos la posición, y si la obtiene, añadimos un objeto literal el objeto literal
         // con su array para las producciones que contendrá
         addCategory(elem) {
@@ -117,8 +143,8 @@ const StreamManager = (function () {
             }
         }
 
-        //método que elimina una categoría, comprobamos que es una categpría y obtenemos la posición
-        //se elimina la categoría si la misma existe en la lista
+        // método que elimina una categoría, comprobamos que es una categpría y obtenemos la posición
+        // se elimina la categoría si la misma existe en la lista
         removeCategory(elem) {
             if ((!(elem instanceof Category)) || (elem == null)) throw new FailedObjTypeException();
             let cat = this.getCatPos(elem);
@@ -132,8 +158,8 @@ const StreamManager = (function () {
             }
         }
 
-        //método para añadir un usuraio. comprobamos que el nombre y el mail no están en la lista
-        //vemos si se trata de un objeto user y lo añadimos
+        // método para añadir un usuraio. comprobamos que el nombre y el mail no están en la lista
+        // vemos si se trata de un objeto user y lo añadimos
         addUser(elem) {
 
             if ((this.#users.findIndex((user) => user.username === elem.username) !== -1)) throw new FailedExistException;
@@ -146,7 +172,7 @@ const StreamManager = (function () {
             return this.#users.length;
         }
 
-        //método para eliminar un usuario, comprobamos que sea un objeto user, 
+        // método para eliminar un usuario, comprobamos que sea un objeto user, 
         // y buscamos que lo que le hemos pasado coincide con el contenido en la lista, para
         // poder eliminarlo
         removeUser(elem) {
@@ -160,7 +186,7 @@ const StreamManager = (function () {
             return this.#users.length;
         }
 
-        //método para aadir una producción, comprobamos que el objeto es correcto
+        // método para aadir una producción, comprobamos que el objeto es correcto
         // y en caso contrario la añadimos
         addProduction(elem) {
             if (!(elem instanceof Production)) throw new FailedObjTypeException();
@@ -171,7 +197,7 @@ const StreamManager = (function () {
             return this.#productions.length;
         }
 
-        //método para eliminar una producción. comprobamos que se trata de una producción
+        // método para eliminar una producción. comprobamos que se trata de una producción
         // y si lo encontramos en la lista, lo eliminamos
         removeProduction(elem) {
             if (!(elem instanceof Production)) throw new FailedObjTypeException();
@@ -184,10 +210,10 @@ const StreamManager = (function () {
             return this.#productions.length;
         }
 
-        //método que añade actores a la lista, obtenemos la posición del actor
+        // método que añade actores a la lista, obtenemos la posición del actor
         // y lo añadimos al array que contiene a los actores
         addActor(elem) {
-            if ((!(elem instanceof Person)) || (elem == null)) throw new FailedObjTypeException();
+            if ((!(elem instanceof Actor)) || (elem == null)) throw new FailedObjTypeException();
             let position = this.getActPos(elem);
             if (position === -1) {
                 this.#actors.push(
@@ -204,10 +230,10 @@ const StreamManager = (function () {
             }
         }
 
-        //método que elimina un actor, comprbamos que es el mismo tipo de objeto
+        // método que elimina un actor, comprbamos que es el mismo tipo de objeto
         // y obtenemos la posición para poder eliminarlo
         removeActor(elem) {
-            if ((!(elem instanceof Person)) || (elem == null)) throw new FailedObjTypeException();
+            if ((!(elem instanceof Actor)) || (elem == null)) throw new FailedObjTypeException();
 
             let position = this.getActPos(elem);
             if (position !== -1) {
@@ -221,11 +247,11 @@ const StreamManager = (function () {
         }
 
 
-        //método que añade directores a la lista, obtenemos la posición del actor
+        // método que añade directores a la lista, obtenemos la posición del actor
         // y lo añadimos al array que contiene a los directores
         addDirector(elem) {
 
-            if ((!(elem instanceof Person)) || (elem == null)) throw new FailedObjTypeException();
+            if ((!(elem instanceof Director)) || (elem == null)) throw new FailedObjTypeException();
 
             let position = this.getDirPos(elem);
             if (position === -1) {
@@ -243,10 +269,10 @@ const StreamManager = (function () {
         }
 
 
-        //método que elimina un director, comprbamos que es el mismo tipo de objeto
+        // método que elimina un director, comprbamos que es el mismo tipo de objeto
         // y obtenemos la posición para poder eliminarlo
         removeDirector(elem) {
-            if ((!(elem instanceof Person)) || (elem == null)) throw new FailedObjTypeException();
+            if ((!(elem instanceof Director)) || (elem == null)) throw new FailedObjTypeException();
 
             let position = this.getDirPos(elem);
             if (position !== -1) {
@@ -266,45 +292,36 @@ const StreamManager = (function () {
         // iteramos en el array prods, comprobamos, obtenemos su posicion para verificar si esta o no
         assignCategory(cat, ...prods) {
             if (!(cat instanceof Category)) throw new FailedObjTypeException();
-
+        
             let categoryPosition = this.getCatPos(cat);
+
             if (categoryPosition === -1) {
                 this.addCategory(cat);
                 categoryPosition = this.getCatPos(cat);
             }
-
+        
             // Obtenemos el array de producciones de la categoria indicada
             let arrayCategoryProductions = this.#categories[categoryPosition].productions;
-
-
-            // Recorremos el encadenamiento de producciones para obtenerlas
+        
+            // Recorremos las producciones proporcionadas
             prods.forEach(prod => {
                 if (!(prod instanceof Production)) throw new FailedObjTypeException();
-
+        
                 let productionPosition = this.getProdPos(prod);
-
+        
                 // Si la producción no está en la lista, la añadimos
                 if (productionPosition === -1) {
-                    this.addProduction(prod);
-                }
-
-                if (arrayCategoryProductions.length === 0) {
                     arrayCategoryProductions.push(prod);
                 } else {
-                    arrayCategoryProductions.forEach(production => {
-                        console.log("entro")
-                        if (prod.title === production.title) throw new FailedIsAssignedException();
-
-                        arrayCategoryProductions.push(prod);
-                    });
+                    throw new FailedIsAssignedException();
                 }
             });
-
+        
             console.log(`Producciones asignadas a la categoría ${cat.name}.`);
-
+            console.log(this.#categories);
+        
             return this;
         }
-
 
         //método que desasigna una producción de una categoria
         //comprobamos que se trata de los objetos adecuados y obtenemos las 
@@ -337,7 +354,7 @@ const StreamManager = (function () {
         // obtenemos el array de producciones de su categoria en la posicion encontrada
         // iteramos en el array prods, comprobamos, obtenemos su posicion para verificar si esta o no
         assignDirector(dir, ...prods) {
-            if (!(dir instanceof Person)) throw new FailedObjTypeException();
+            if (!(dir instanceof Director)) throw new FailedObjTypeException();
 
             let directorPosition = this.getDirPos(dir);
             if (directorPosition === -1) {
@@ -370,12 +387,9 @@ const StreamManager = (function () {
             return this;
         }
 
-
-
-
         // Método para desasignar una producción de un director
         deassignDirector(dir, prod) {
-            if (!(dir instanceof Person)) throw new FailedObjTypeException();
+            if (!(dir instanceof Director)) throw new FailedObjTypeException();
             if (!(prod instanceof Production)) throw new FailedObjTypeException();
 
             let directorPosition = this.getDirPos(dir);
@@ -393,15 +407,13 @@ const StreamManager = (function () {
             }
         }
 
-
-
         //método que añade un actor a una produccion
         // comprobamos que es una categoría y almacenamos el array de producciones
         // obtenemos la posicion de la producción y la categoría
         // obtenemos el array de producciones de su categoria en la posicion encontrada
         // iteramos en el array prods, comprobamos, obtenemos su posicion para verificar si esta o no
         assignActor(actor, ...prods) {
-            if (!(actor instanceof Person)) throw new FailedObjTypeException();
+            if (!(actor instanceof Actor)) throw new FailedObjTypeException();
 
             let actorPosition = this.getActPos(actor);
             if (actorPosition === -1) {
@@ -431,12 +443,13 @@ const StreamManager = (function () {
             });
 
             console.log(`Producciones asignadas al actor ${actor.name}.`);
+            console.log(this.#actors)
             return this;
         }
 
         // Método para desasignar una producción de un actor
         deassignActor(actor, prod) {
-            if (!(actor instanceof Person)) throw new FailedObjTypeException();
+            if (!(actor instanceof Actor)) throw new FailedObjTypeException();
             if (!(prod instanceof Production)) throw new FailedObjTypeException();
 
             let actorPosition = this.getActPos(actor);
@@ -454,13 +467,12 @@ const StreamManager = (function () {
             }
         }
 
-
         //iterador para obtener las producciones de un director
         //vemos si es una persona y obtenemos la posición del array
         //en una variable definimos el array de directores con el de producciones
         //se recorren los elementos obtenidos con yield
         * getProductionsDirector(dir) {
-            if ((!(dir instanceof Person)) || (dir == null)) throw new FailedObjTypeException();
+            if ((!(dir instanceof Director)) || (dir == null)) throw new FailedObjTypeException();
             let positionDir = this.getDirPos(dir);
             if (positionDir === -1) throw new FailedNotExistException();
 
@@ -471,11 +483,11 @@ const StreamManager = (function () {
         }
 
         //iterador para obtener las producciones de un actor
-        //vemos si es una persona y obtenemos la posición del array
+        //vemos si es una Actora y obtenemos la posición del array
         //en una variable definimos el array de actores con el de producciones
         //se recorren los elementos obtenidos con yield
         * getProductionsActor(actor) {
-            if ((!(actor instanceof Person)) || (actor == null)) throw new FailedObjTypeException();
+            if ((!(actor instanceof Actor)) || (actor == null)) throw new FailedObjTypeException();
             let positionAct = this.getActPos(actor);
             if (positionAct === -1) throw new FailedNotExistException();
 
@@ -500,10 +512,125 @@ const StreamManager = (function () {
             }
         }
 
+        // Metodo para obtener si un elemento existe mediante el nombre
+        getCategoryWithName(name) {
+            for (let i = 0; i < this.#categories.length; i++) {
+                if (this.#categories[i].category.name === name) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        getProductionWithName(name) {
+            for (let i = 0; i < this.#productions.length; i++) {
+                if (this.#productions[i].title === name) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        getDirectorWithName(name) {
+            for (let i = 0; i < this.#directors.length; i++) {
+                if (this.#directors[i].director.name === name) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        getActorWithName(name) {
+            for (let i = 0; i < this.#actors.length; i++) {
+                if (this.#actors[i].actors.name === name) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        // Metodos para la creacion de los objetos
+        createCategory(name) {
+            let category;
+            let pos = this.getCategoryWithName(name);
+
+            if (pos !== -1) {
+                category = this.#categories[pos].category;
+            } else {
+                category = new Category(name);
+            }
+
+
+            // Devolvemos la categoria
+            return category;
+        }
+
+
+        // Metodo para obtener una produccion en concreto por el nombre
+        createProduction (name) {
+            let production;
+            let pos = this.getProductionWithName(name);
+
+            if (pos !== -1) {
+                production = this.#productions[pos];
+            } else {
+                production = new Production(name);
+            }
+
+            // Devolvemos la categoria
+            return production;
+        }
+
+        createDirector(name) {
+            let direct;
+            let pos = this.getDirectorWithName(name);
+
+            if (pos !== -1) {
+                direct = this.#directors[pos].director;
+            } else {
+                direct = new Director(name);
+            }
+
+            // Devolvemos la categoria
+            return direct;
+        }
+
+        createActor(name) {
+            let act;
+            let pos = this.getActorWithName(name);
+
+            if (pos !== -1) {
+                act = this.#actors[pos].actors;
+            } else {
+                act = new Actor(name);
+            }
+
+            // Devolvemos la categoria
+            return act;
+        }
+
+        getRandomProductions() {
+            let arrayProductions = [];
+
+            while (arrayProductions.length !== 3) {
+                let random = Math.floor(Math.random() * this.#productions.length);
+
+                if (!arrayProductions.includes(this.#productions[random])) {
+                    arrayProductions.push(this.#productions[random]);
+                }
+            }
+
+            return arrayProductions;
+        }
     }
 
     function createInstance() {
         const streamManager = new StreamManager();
+        Object.freeze(streamManager);
         return streamManager;
     }
 
@@ -517,4 +644,4 @@ const StreamManager = (function () {
     }
 })();
 
-export { StreamManager };
+export default StreamManager ;

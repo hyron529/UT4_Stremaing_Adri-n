@@ -1,5 +1,5 @@
 "use strict";
-import {FailedEmptyException, FailedObjTypeException} from "../js/exception.js";
+import {FailedEmptyException, FailedObjTypeException} from "../exception.js";
 class Resource{
 
     #duration;

@@ -1,6 +1,6 @@
 "use strict";
-import {FailedEmptyException, FailedObjTypeException} from "../js/exception.js";
-class Person{
+import {FailedEmptyException, FailedObjTypeException} from "../exception.js";
+class Director{
 
     #name;
     #lastname1;
@@ -11,7 +11,7 @@ class Person{
     constructor(name, lastname1, born){
 
         if (name === "" || name === undefined) throw new FailedEmptyException();
-        if(!(new.target === Person)) throw new FailedObjTypeException("Person");
+        if(!(new.target === Director)) throw new FailedObjTypeException("Director");
 
         this.#name = name;
         this.#lastname1 = lastname1;
@@ -70,4 +70,4 @@ class Person{
     }
 }
 
-export {Person};
+export {Director};

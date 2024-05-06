@@ -2,7 +2,7 @@
 
 import { Production } from "./production.js";
 import { Resource } from "./resource.js";
-import { FailedEmptyException } from "../js/exception.js";
+import { FailedEmptyException } from "../exception.js";
 
 class Movie extends Production {
     #locations;
