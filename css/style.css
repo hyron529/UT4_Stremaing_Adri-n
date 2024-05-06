@@ -128,3 +128,202 @@ nav {
     font-family: "otros";
     src: url('../fuentes/Fast\ Hand.otf') format('truetype');
 }
+
+.card_show_categories{
+    background-color: #c798e3;
+    margin-left: 1%;
+    margin-bottom: 1em;
+    width: 25%;
+    border-radius: 20px;
+    border: solid 3px #000;
+}
+
+.card_show_categories:hover {
+    background-color: goldenrod;
+}
+
+.card_show_categories h1 {
+    color: #000;
+    font-family: "titulos";
+    text-align: center;
+}
+
+.card_show_categories a {
+    text-decoration: none;
+    font-family: "titulos";
+    font-size: 30px;
+    color: #000;
+}
+
+.nav-link-category-nav:hover{
+    background-color: bisque;
+}
+
+.dropdown-item-category{
+    color:#c798e3;
+}
+
+#category-list{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#category-list h1{
+    font-family: "titulos";
+    color: black;
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 1.5%;
+}
+
+/*---------------------*/
+
+.card_random_production{
+    background-color: #c798e3;
+    margin-left: 6%;
+    margin-bottom: 1em;
+    width: 25%;
+    border-radius: 20px;
+    border: solid 3px #000;
+}
+
+.card_random_production a{
+    text-decoration: none;
+    font-family: "titulos";
+    color: #000;
+    font-size: 30px;
+    margin-top: 1.5%;
+}
+
+.card_random_production:hover{
+    background-color: goldenrod;
+}
+
+#randomProduction-list{
+    margin-top: 1.5%;
+}
+
+#randomProduction-list h1{
+    color: #000;
+    font-family: "titulos";
+    font-size: 50px;
+    text-align: center;
+    margin-bottom: 1.5%;
+}
+
+/*---------------------*/
+
+#production-item{
+    background-color: #c798e3;
+    max-width: 50%;
+    margin-left: 25%;
+    border: solid black 3px;
+    padding: 15px;
+    padding-top: 8px;
+}
+
+#production-item h3{
+    color: black;
+    font-family: "otros";
+
+}
+
+#production-item p{
+    color: whitesmoke;
+    font-family: "textos";
+    font-size: larger;
+}
+
+.card-body-production img{
+    max-width: 25%;
+    border-radius: 10px;
+}
+
+/*---------------------*/
+
+.card-production-list{
+    background-color: #c798e3;
+    margin-left: 8%;
+    margin-bottom: 1em;
+    width: 15%;
+    border-radius: 20px;
+    border: solid 3px #000;
+}
+
+#production-list{
+    margin-top: 1.5%;
+}
+
+#production-list h1{
+    font-family: "titulos";
+    color: black;
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 1.5%;
+}
+
+.card-production-list a{
+    text-decoration: none;
+    font-family: "titulos";
+    color: #000;
+    font-size: 30px;
+}
+
+.card-production-list:hover{
+    background-color: goldenrod;
+}
+
+/*---------------------*/
+
+#actor-item{
+    background-color: #c798e3;
+    max-width: 30%;
+    margin-left: 38%;
+    border: solid black 3px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#actor-item img{
+    width: 50%;
+    border-radius: 20px;
+}
+
+#actor-item h5{
+    font-family: "titulos";
+    font-size: 35px;
+}
+
+#actor-item p{
+    font-family: "textos";
+    font-size: 20px;
+    color: whitesmoke;
+}
+
+/*---------------------*/
+
+#director-item{
+    background-color: #c798e3;
+    max-width: 30%;
+    margin-left: 38%;
+    border: solid black 3px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#director-item img{
+    width: 50%;
+    border-radius: 20px;
+}
+
+#director-item h5{
+    font-family: "titulos";
+    font-size: 35px;
+}
+
+#director-item p{
+    font-family: "textos";
+    font-size: 20px;
+    color: whitesmoke;
+}

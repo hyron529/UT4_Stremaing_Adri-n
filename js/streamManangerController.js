@@ -42,37 +42,39 @@ class StreamManagerController {
         let coordinate = new Coordinate(60, 64);
 
         // Añadimos las producciones
-        let sawMovie = new Movie("Saw X", "USA", "20/01/2023", "John tortura a los que le estafaron por el cáncer.", "John.png", coordinate, resource);
-        let conjuringMovie = new Movie("El Conjuro", "USA", "15/07/2022", "Una pareja investiga fenómenos paranormales en una casa encantada.", "Conjuring.png", coordinate, resource);
-        let strangerThings = new Serie("Stranger Things", "USA", "15/07/2016", "Un grupo de niños enfrenta criaturas sobrenaturales en los años 80.", "StrangerThings.png", coordinate, resource, "2");        
-        let exorcistSerie = new Serie("El Exorcista", "USA", "23/09/2016", "Un sacerdote lucha contra posesiones demoníacas.", "Exorcist.png", coordinate, resource, "2");
-        let shawshankMovie = new Movie("Cadena Perpetua", "USA", "14/10/1994", "Un hombre inocente lucha por su libertad en una prisión corrupta.", "Shawshank.png", coordinate, resource);
-        let breakingBad = new Serie("Breaking Bad", "USA", "20/01/2008", "Un profesor de química se convierte en un poderoso narcotraficante.", "BreakingBad.png", coordinate, resource, "2");
-        let forrestGump = new Movie("Forrest Gump", "USA", "06/07/1994", "La historia de un hombre con discapacidad que vive momentos clave de la historia de Estados Unidos.", "ForrestGump.png", coordinate, resource);
-        let thisIsUs = new Serie("This Is Us", "USA", "20/09/2016", "Las vidas entrelazadas de varias personas nacidas en el mismo día.", "ThisIsUs.png", coordinate, resource, "2");
-        let superbadMovie = new Movie("Superbad", "USA", "17/08/2007", "Dos amigos intentan conseguir alcohol para una fiesta.", "Superbad.png", coordinate, resource);
-        let brooklyn99 = new Serie("Brooklyn Nine-Nine", "USA", "17/09/2013", "La vida de detectives en una comisaría de Nueva York.", "Brooklyn99.png", coordinate, resource, "2");
-        let theOffice = new Serie("The Office", "USA", "24/03/2005", "El día a día de los empleados de una oficina en Scranton.", "TheOffice.png", coordinate, resource, "2");
-        let hangoverMovie = new Movie("Resacón en Las Vegas", "USA", "05/06/2009", "Un grupo de amigos despierta después de una noche de desenfreno sin recordar nada.", "/img/resacon.png", coordinate, resource);
+        let sawMovie = new Movie("Saw X", "USA", "20/01/2023", "John tortura a los que le estafaron por el cáncer.", "/img/saw.jpeg", coordinate, resource);
+        let conjuringMovie = new Movie("El Conjuro", "USA", "15/07/2022", "Una pareja investiga fenómenos paranormales en una casa encantada.", "/img/conjuro.webp", coordinate, resource);
+        let strangerThings = new Serie("Stranger Things", "USA", "15/07/2016", "Un grupo de niños enfrenta criaturas sobrenaturales en los años 80.", "/img/demogorgon.webp", coordinate, resource, "2");        
+        let exorcistSerie = new Serie("El Exorcista", "USA", "23/09/2016", "Un sacerdote lucha contra posesiones demoníacas.", "/img/exorcista.jpg", coordinate, resource, "2");
+        let shawshankMovie = new Movie("Cadena Perpetua", "USA", "14/10/1994", "Un hombre inocente lucha por su libertad en una prisión corrupta.", "/img/cadena.jpg", coordinate, resource);
+        let breakingBad = new Serie("Breaking Bad", "USA", "20/01/2008", "Un profesor de química se convierte en un poderoso narcotraficante.", "/img/walter.jpg", coordinate, resource, "2");
+        let forrestGump = new Movie("Forrest Gump", "USA", "06/07/1994", "La historia de un hombre con discapacidad que vive momentos clave de la historia de Estados Unidos.", "/img/forrest.jpg", coordinate, resource);
+        let thisIsUs = new Serie("This Is Us", "USA", "20/09/2016", "Las vidas entrelazadas de varias personas nacidas en el mismo día.", "/img/thisisus.jpeg", coordinate, resource, "2");
+        let superbadMovie = new Movie("Superbad", "USA", "17/08/2007", "Dos amigos intentan conseguir alcohol para una fiesta.", "/img/superbad.jpg", coordinate, resource);
+        let brooklyn99 = new Serie("Brooklyn Nine-Nine", "USA", "17/09/2013", "La vida de detectives en una comisaría de Nueva York.", "/img/brooklyn.jpg", coordinate, resource, "2");
+        let theOffice = new Serie("The Office", "USA", "24/03/2005", "El día a día de los empleados de una oficina en Scranton.", "/img/office.jpg", coordinate, resource, "2");
+        let hangoverMovie = new Movie("Resacon en Las Vegas", "USA", "05/06/2009", "Un grupo de amigos despierta después de una noche de desenfreno sin recordar nada.", "/img/resacon.png", coordinate, resource);
 
         // Asingamos las producciones a las categorias
         this[MODEL].assignCategory(terrorCategory, sawMovie, conjuringMovie, strangerThings, exorcistSerie);
         this[MODEL].assignCategory(dramaCategory, shawshankMovie, breakingBad, forrestGump, thisIsUs);
         this[MODEL].assignCategory(comedyCategory, superbadMovie, brooklyn99, theOffice, hangoverMovie);
 
-
         let actor1 = new Actor("Johnny");
         actor1.lastname1 = "Depp";
         actor1.born = "20/08/1960";
+        actor1.picture = "/img/deep.webp";
 
         let actor2 = new Actor("Tom");
         actor2.lastname1 = "Hanks";
         actor2.born = "20/08/1960";
+        actor2.picture = "/img/hanks.jpeg";
 
         // Creación de un director
         let director = new Director("Christopher");
         director.lastname1 = "Nolan";
         director.born = "30/07/1970";
+        director.picture ="/img/nolan.jpg";
 
 
         this[MODEL].assignActor(actor1, sawMovie, conjuringMovie, strangerThings, exorcistSerie, breakingBad);

@@ -55,7 +55,7 @@ class StreamManagerView {
       container.insertAdjacentHTML(
         "beforeend",
         `
-                <div class="card rounded-3 mt-20">
+                <div class="card_show_categories rounded-3 mt-20">
                     <a data-category="${category.category.name}" href="#category-list">
                         <div class="card-body text-center">
                             <p class="card-text">${category.category.name}</p>
@@ -79,7 +79,7 @@ class StreamManagerView {
     // Le aniadimos el titulo a nuestro contenedor
     li.insertAdjacentHTML(
       "beforeend",
-      '<a class="nav-link dropdown-toggle" href="#" id="navCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false">CATEGORIAS</a>'
+      '<a class="nav-link-category-nav dropdown-toggle" href="#" id="navCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false">CATEGORIAS</a>'
     );
 
     // Nos creamos el ul que ira dentro de nuestr dropdown y le aniadimos las respectivas clases de boostrap
@@ -93,7 +93,7 @@ class StreamManagerView {
         `
                 <li>
                     <a data-category="${category.category.name}"
-                    class="dropdown-item" 
+                    class="dropdown-item-category" 
                     href="#"> 
                         ${category.category.name}
                     </a>
@@ -192,14 +192,14 @@ class StreamManagerView {
     container.id = "randomProduction-list";
 
     // Le aniadimos el titulo a nuestro contenedor
-    container.insertAdjacentHTML("beforeend", "<h1>Producciones Random</h1>");
+    container.insertAdjacentHTML("beforeend", "<h1>Seleccion de contenido destacado</h1>");
 
     // Iteramos sobre las categorias que recibimos y las aniadimos a nuestro contenedor
     for (const pro of productions) {
       container.insertAdjacentHTML(
         "beforeend",
         `
-                <div class="card rounded-3 mt-20">
+                <div class="card_random_production rounded-3 mt-20">
                     <a data-production="${pro.title}" href="#randomProduction-list">
                         <div class="card-body text-center">
                             <p class="card-text">${pro.title}</p>
@@ -237,7 +237,7 @@ class StreamManagerView {
       container.insertAdjacentHTML(
         "beforeend",
         `
-                    <div class="card rounded-3 mt-20">
+                    <div class="card-production-list rounded-3 mt-20">
                     <a data-production="${prod.title}" href="#production-list">
 
                         <div class="card-body text-center">
@@ -271,12 +271,12 @@ class StreamManagerView {
       container.insertAdjacentHTML(
         "beforeend",
         `
-                <img src=${production.image} class="card-img-top">
-                <div class="card-body">
-                    <h5 class="card-title">${production.title}</h5>
-                    <p class="card-text">${production.synopsis}</p>
-                    <h3 class="card-title">publications</h3>
-                    <p class="card-text">${production.publication}</p>
+                <div class="card-body-production">
+                <img src=${production.image} class="card-img-top-production">
+                    <h3 class="card-title">Titulo: ${production.title}</h5>
+                    <p class="card-text">Nacionalidad: ${production.nationality}</p>
+                    <p class="card-text">Sinopsis: ${production.synopsis}</p>
+                    <p class="card-text">Fecha de estreno: ${production.publication}</p>
                 </div>
                 `
       );
@@ -303,8 +303,9 @@ class StreamManagerView {
         `
                 <img src=${act.picture} class="card-img-top">
                 <div class="card-body">
-                    <h5 class="card-title">${act.name}</h5>
-                    <p class="card-text">${act.lastname1}</p>
+                    <h5 class="card-title">Nombre: ${act.name}</h5>
+                    <p class="card-text">Apellido: ${act.lastname1}</p>
+                    <p class="card-text">Fecha de nacimiento: ${act.born}</p>
                 </div>
                 `
       );
@@ -331,8 +332,9 @@ class StreamManagerView {
         `
                     <img src=${director.picture} class="card-img-top">
                     <div class="card-body">
-                        <h5 class="card-title">${director.name}</h5>
-                        <p class="card-text">${director.lastname1}</p>
+                        <h5 class="card-title">Nombre: ${director.name}</h5>
+                        <p class="card-text">Apellido: ${director.lastname1}</p>
+                        <p class="card-text">Fecha de nacimiento: ${director.born}</p>
                     </div>
                     `
       );
