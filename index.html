@@ -43,6 +43,21 @@
                     <li class="list"><a data-translate="inicio" id="inicio"
                             href="#inicio-section">INICIO</a>
                     </li>
+                    <li class="list nav-item dropdown">
+                        <a class="nav-link-category-nav dropdown-toggle" href="#" id="navCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false">CATEGORIAS</a>
+                        <ul class="dropdown-menu" data-bs-popper="static"></ul>
+                    </li>
+
+                    <li class=" nav-item dropdown">
+                        <a class="nav-link-category-nav dropdown-toggle" href="#" id="navActores" role="button" data-bs-toggle="dropdown" aria-expanded="false">ACTORES</a>
+                        <ul class="dropdown-menu" data-bs-popper="static"></ul>
+                    </li>
+
+                    <li class="list nav-item dropdown">
+                        <a class="nav-link-category-nav dropdown-toggle" href="#" id="navDirectors" role="button" data-bs-toggle="dropdown" aria-expanded="false">DIRECTORES</a>
+                        <ul class="dropdown-menu" data-bs-popper="static"></ul>
+                    </li>
+
                 </ul>
             </div>
         </nav>
@@ -50,6 +65,23 @@
         <div class="inicio-section">
             <div id="zonaInicio" class="inicio"></div>
             <div id="central" class="centro"></div>
+
+            <div class="modal fade" id="messageModal" data-bs-backdrop="static" databs-keyboard="false" tabindex="-1"
+            aria-labelledby="messageModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialogscrollable">
+                <div class="modal-content bg-modal">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="messageModalTitle">Modal
+                            title</h1>
+                        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-white">...</div>
+                    <div class="modal-footer">
+                        <button type="button" class="button red" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+            </div>
         </div>
     </main>
 

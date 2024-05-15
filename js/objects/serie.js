@@ -10,13 +10,11 @@ class Serie extends Production{
     #locations;
     #seasons;
     
-    constructor(title, nationality, publication, synopsis, image, locations, resource, seasons){
+    constructor(title, nationality, publication, synopsis, image, seasons){
         super(title, nationality, publication, synopsis, image);
 
-        if (!(resource instanceof Resource)) throw new FailedObjTypeException();
-        
-        this.#resource = resource;
-        this.#locations = locations;
+        this.#resource = null;
+        this.#locations = null;
         this.#seasons = seasons;
     }
 
@@ -33,6 +31,7 @@ class Serie extends Production{
 
     set resource(value) {
         if (value === undefined || value === "") throw new FailedEmptyException("resource");
+        if (!(value instanceof Resource)) throw new FailedEmptyException("resource");
         this.#resource = value;
     }
 

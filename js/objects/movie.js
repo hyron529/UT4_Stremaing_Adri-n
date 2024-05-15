@@ -8,13 +8,11 @@ class Movie extends Production {
     #locations;
     #resource;
 
-    constructor(title, nationality, publication, synopsis, image, locations, resource) {
+    constructor(title, nationality, publication, synopsis, image) {
         super(title, nationality, publication, synopsis, image);
-        
-        if (!(resource instanceof Resource)) throw new FailedEmptyException("resource");
-
-        this.#locations = locations;
-        this.#resource = resource;
+    
+        this.#locations = null;
+        this.#resource = null;
     }
 
     get resource() {
@@ -27,6 +25,7 @@ class Movie extends Production {
 
     set resource(value) {
         if (value === undefined || value === "") throw new FailedEmptyException("resource");
+        if (!(value instanceof Resource)) throw new FailedEmptyException("resource");
         this.#resource = value;
     }
 
