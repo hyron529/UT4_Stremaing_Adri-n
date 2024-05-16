@@ -1028,7 +1028,7 @@ class StreamManagerView {
     const container = document.createElement("div");
     container.id = "assign-director";
 
-    container.insertAdjacentHTML("beforeend", `<h1>Asignar Director a Produccion</h1>`);
+    container.insertAdjacentHTML("beforeend", `<h1>Asignar Actor a Produccion</h1>`);
 
     container.insertAdjacentHTML(
       "beforeend",
@@ -1101,7 +1101,7 @@ class StreamManagerView {
     const container = document.createElement("div");
     container.id = "desassign-director";
 
-    container.insertAdjacentHTML("beforeend", `<h1>Asignar Director a Produccion</h1>`);
+    container.insertAdjacentHTML("beforeend", `<h1>Desasignar Actor a Produccion</h1>`);
 
     container.insertAdjacentHTML(
       "beforeend",
@@ -1315,11 +1315,13 @@ class StreamManagerView {
   }
 
   showRemoveProductionModal(done, error) {
+    //obtenemos el elemento del dom e iniciamos el modal en boostrap
     const messageModalContainer = document.getElementById("messageModal");
     const messageModal = new bootstrap.Modal("#messageModal");
 
     const title = document.getElementById("messageModalTitle");
     title.innerHTML = "Produccion eliminada";
+    //obtenemos el elemento con la clase del contenedor del modal
     const body = messageModalContainer.querySelector(".modal-body");
     body.replaceChildren();
     if (done) {

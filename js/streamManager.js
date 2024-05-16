@@ -587,6 +587,10 @@ const StreamManager = (function () {
     }
 
     // Metodo para obtener si un elemento existe mediante el nombre
+    //recorremos los elementos del array de categorias
+    //luego verificamos que el nombre introducido es el que esta en el array
+    //y si lo encuentra, devolvemos la posicion en la que se encuentra, y si no
+    //encuentra nada, devuleve -1
     getCategoryWithName(name) {
       for (let i = 0; i < this.#categories.length; i++) {
         if (this.#categories[i].category.name === name) {
@@ -627,7 +631,10 @@ const StreamManager = (function () {
       return -1;
     }
 
-    // Metodos para la creacion de los objetos
+    // Metodos para la creacion de los objetos categoria
+    //variable para almacenar la categoria y buscamos dicha categoria por su nombre
+    //si la cat ya existe, asignamos dicha categoria a la variable category
+    //y si no, creamos una instancia nueva de category por su nombre
     createCategory(name) {
       let category;
       let pos = this.getCategoryWithName(name);

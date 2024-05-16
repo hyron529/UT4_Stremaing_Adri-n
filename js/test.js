@@ -24,12 +24,14 @@ const historyActions = {
     }
 }
 
-// Definimos el popstate
+// Definimos el popstate, con el que controlamos cuando cambia el historial de navegacion, 
+//es decir, si el usuario
+//avanza o retrocede en la pagina
 window.addEventListener('popstate', (event) => {
     if (event.state) {
         historyActions[event.state.action](event);
     }
 });
 
-// Envento inicial
+// Establecemos el estado inicial de la pagina
 history.replaceState({action: 'init'}, null);
