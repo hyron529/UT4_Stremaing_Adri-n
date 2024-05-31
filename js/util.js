@@ -1,17 +1,14 @@
-
 // funcion que recibe nombre de la cookie, su valor y los dias de expiracion
 // se crea la cookie directamente en la reiz de la aplicacion
 function setCookie(cname, cvalue, exdays) {
-    const d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    const expires = `expires=${d.toUTCString()}`;
-    document.cookie = `${cname}=${cvalue};${expires};path=/`;
-  }
-  
-  // funcion para recuperar una cookie por su nombre
-  function getCookie(cname) {
-    const re = new RegExp(`(?:(?:^|.*;\\s*)${cname}\\s*\\=\\s*([^;]*).*$)|^.*$`);
-    return document.cookie.replace(re, '$1');
-  }
-  
-  export { setCookie, getCookie };
+  const d = new Date();
+  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+  const expires = `expires=${d.toUTCString()}`;
+  document.cookie = `${cname}=${cvalue};${expires};path=/`;
+}
+
+function getCookie(cname) {
+  const re = new RegExp(`(?:(?:^|.*;\\s*)${cname}\\s*\\=\\s*([^;]*).*$)|^.*$`);
+  return document.cookie.replace(re, "$1");
+}
+export { setCookie, getCookie };

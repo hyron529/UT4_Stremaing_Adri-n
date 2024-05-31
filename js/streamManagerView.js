@@ -1,3 +1,4 @@
+import { setCookie } from "./utils.js";
 import {
   newfCategory,
   newfActor,
@@ -27,6 +28,15 @@ class StreamManagerView {
 
     // Zona del menu de nuestra pagina
     this.menu = document.getElementById("menu");
+
+    // Obtenemos el header y el contenedor con el contenido
+    // para quitarlos si no se aceptan las cookies
+    this.header = document.getElementById("nav");
+    this.content = document.getElementById("content");
+    this.footer = document.getElementById("footer");
+
+    // Menu de nuestra pagina
+    this.menu = document.querySelector(".nav_ul");
 
     // Creamos un mapa que contendra las ventanas que tenemos abiertas
     this.productionsOpen = new Map();
@@ -476,7 +486,7 @@ class StreamManagerView {
       `
     );
 
-    
+
     ul.insertAdjacentHTML(
       "beforeend",
       `
@@ -486,7 +496,7 @@ class StreamManagerView {
       `
     );
 
-        
+
     ul.insertAdjacentHTML(
       "beforeend",
       `
@@ -496,7 +506,7 @@ class StreamManagerView {
       `
     );
 
-            
+
     ul.insertAdjacentHTML(
       "beforeend",
       `
@@ -820,7 +830,7 @@ class StreamManagerView {
     }
   }
 
-  
+
   // Metodo con el que mostraremos el formulario para una nueva categoria
   showRemoveDirector(directors) {
     this.inicio.replaceChildren();
@@ -871,7 +881,7 @@ class StreamManagerView {
   }
 
 
-   
+
   // Metodo con el que mostraremos el formulario para una nueva categoria
   showAssignDirector(directors, productions) {
     this.inicio.replaceChildren();
@@ -929,7 +939,7 @@ class StreamManagerView {
       );
     }
 
-    
+
     const prodcutionSelector = document.getElementById(
       "inputfProduction"
     );
@@ -946,7 +956,7 @@ class StreamManagerView {
   }
 
 
-   
+
   // Metodo con el que mostraremos el formulario para una nueva categoria
   showDesAssignDirector(directors, productions) {
     this.inicio.replaceChildren();
@@ -1004,7 +1014,7 @@ class StreamManagerView {
       );
     }
 
-    
+
     const prodcutionSelector = document.getElementById(
       "inputfProduction"
     );
@@ -1020,8 +1030,8 @@ class StreamManagerView {
     }
   }
 
-   // Metodo con el que mostraremos el formulario para una nueva categoria
-   showAssignActor(actors, productions) {
+  // Metodo con el que mostraremos el formulario para una nueva categoria
+  showAssignActor(actors, productions) {
     this.inicio.replaceChildren();
     this.central.replaceChildren();
 
@@ -1077,7 +1087,7 @@ class StreamManagerView {
       );
     }
 
-    
+
     const prodcutionSelector = document.getElementById(
       "inputfProduction"
     );
@@ -1093,8 +1103,8 @@ class StreamManagerView {
     }
   }
 
-   // Metodo con el que mostraremos el formulario para una nueva categoria
-   showDesAssignActor(actors, productions) {
+  // Metodo con el que mostraremos el formulario para una nueva categoria
+  showDesAssignActor(actors, productions) {
     this.inicio.replaceChildren();
     this.central.replaceChildren();
 
@@ -1150,7 +1160,7 @@ class StreamManagerView {
       );
     }
 
-    
+
     const prodcutionSelector = document.getElementById(
       "inputfProduction"
     );
@@ -1360,7 +1370,7 @@ class StreamManagerView {
     messageModal.show();
   }
 
-  
+
   showRemoveDirectorModal(done, error) {
     const messageModalContainer = document.getElementById("messageModal");
     const messageModal = new bootstrap.Modal("#messageModal");
@@ -1428,7 +1438,7 @@ class StreamManagerView {
     messageModal.show();
   }
 
-  
+
   showAssignActorModal(done, error) {
     const messageModalContainer = document.getElementById("messageModal");
     const messageModal = new bootstrap.Modal("#messageModal");
@@ -2051,7 +2061,280 @@ class StreamManagerView {
       }
     });
   }
-}
 
+
+
+  /*
+  
+    COOKIES
+  
+  */
+  // Metodo que llamaremos desde nuestro controlador para mostrar el mensaje
+  // al usuario de que tiene que aceptar o denegar el uso de cookies
+  showCookiesMessage() {
+    // Definimos el div que contiene el mensaje de aviso de las cookies
+    const toast = `
+    <div class="fixed-top p-5 mt-5">
+      <div
+        id="cookies-message"
+        class="toast fade show bg-drop text-white  w-100 mw-100"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+      <div class="toast-header">
+        <h4 class="me-auto">Alerta de cookies</h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="toast"
+          aria-label="Close"
+          id="btnDismissCookie"
+        ></button>
+      </div>
+      <div class="toast-body p-4 d-flex flex-column">
+        <p>
+          ¡Importante! Al usar nuestros servicios, aceptas nuestros términos y cookies automáticamente.
+        </p>
+        <div class="ml-auto">
+          <button
+            type="button"
+            class="btn red  text-white mr-3"
+            id="btnDenyCookie"
+            data-bs-dismiss="toast"
+          >
+            Denegar
+          </button>
+          <button
+            type="button"
+            class="btn green text-white"
+            id="btnAcceptCookie"
+            data-bs-dismiss="toast"
+          >
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  `;
+
+    // Añadimos el div con el contenido a nuestra pagina
+    document.body.insertAdjacentHTML("afterbegin", toast);
+
+    // Vamos a controlar los eventos que boostrap genera al ser cerrado el mensaje
+    // independientemente del metodo que se este usando
+    const cookiesMessage = document.getElementById("cookies-message");
+    cookiesMessage.addEventListener("hidden.bs.toast", (event) => {
+      // Eliminamos la notificacion del arbol dom de nuestra pagina
+      event.currentTarget.parentElement.remove();
+    });
+
+    // Añadimos un manejador para cuando se haga click en los botones de cerrar de nuestra notificacion
+    // para que se muestre un mensaje de que no se puede continuar navegando de la pagina si no 
+    // son aceptada las cookies por parte del usuario
+    const denyCookieFunction = (event) => {
+      // Eliminamos el contenido de la parte incial y central de nuestra pagina para mostrar el respectivo mensaje
+      this.initZone.replaceChildren();
+      this.centralZone.replaceChildren();
+
+      // Mostramos el mensaje en la parte inicial de nuestra pagina
+      this.initZone.insertAdjacentHTML(
+        "afterbegin",
+        `
+          <div class="container my3">
+            <div class="alert alert-warning" role="alert">
+              <strong>Para utilizar esta web es necesario aceptar el uso de
+              cookies. Debe recargar la página y aceptar las condicones para seguir
+              navegando. Gracias.</strong>
+            </div>
+          </div>
+        `
+      );
+
+      // Eliminamos de nuestro pagina tanto el navbar como el contenido para que el usuario no puedo navegar
+      this.header.remove();
+      this.content.remove()
+      this.footer.remove();
+    };
+
+    // Si se pulsa alguno de los botones de denegar de nuestra notificacion capturamos el evento 
+    // y mostramos el mensaje de que el usuario no podra navegar en nuestra pagina si no acepta las cookies
+    // 1 boton de denegar
+    const btnDenyCookie = document.getElementById("btnDenyCookie");
+    btnDenyCookie.addEventListener("click", denyCookieFunction);
+
+    // 2 boton de denegar
+    const btnDismissCookie = document.getElementById("btnDismissCookie");
+    btnDismissCookie.addEventListener("click", denyCookieFunction);
+
+    // Si hacemos click en el boton de aceptar capturamos el evento y establecemos la cookies
+    const btnAcceptCookie = document.getElementById('btnAcceptCookie');
+    btnAcceptCookie.addEventListener("click", (event) => {
+      setCookie("acceptedCookieMessage", "true", 1);
+    });
+  }
+
+
+
+  // Creamos la respectiva vista para el link del login y su respectivo bind para dotarle de funcionalidad
+  showIdentificationLink() {
+    // Obtenemos el div para la zona del usuario
+    const userArea = document.getElementById("userArea");
+
+    // Eliminamos lo que tenga esta zona
+    userArea.replaceChildren();
+
+    // Le añadimos el link para la realizacion del login
+    userArea.insertAdjacentHTML(
+      "afterbegin",
+      `<div class="account d-flex
+      mx-2 flex-column">
+      <a id="login" href="#"><i class="bi bi-person-circle" ariahidden="true"></i> Identificate</a>
+      </div>`
+    );
+  }
+
+  // Bind con el que dotaremos de funcionalidad al link del login
+  bindIdentificationLink(handler) {
+    // Obtenemos el enlace del login mediante la id
+    const login = document.getElementById("login");
+
+    // Capturamos el evento click para cuando se pulse sobre el enlace
+    login.addEventListener("click", (event) => {
+      this[EXECUTE_HANDLER](
+        handler,
+        [],
+        "main",
+        { action: "login" },
+        "#",
+        event
+      );
+    });
+  }
+
+  // Metodo con el que mostraremos el formulario de registro en caso de que no hay ningun usuario autenticado
+  showLogin() {
+    // Eliminamos todo el contenido de nuestra zona central e inicial
+    this.initZone.replaceChildren();
+    this.centralZone.replaceChildren();
+
+    // Añadimos el formulario del login a nuestra zona inicial
+    this.initZone.insertAdjacentHTML(
+      'afterbegin',
+      `
+        <div class="contianer h-100">
+          <form name="fLogin" role="form" id="fLogin" class="booking_frm black" novalidate> 
+          <h2 class="frm_title">Login</>
+          <h3 class="frm_subtitle">Introduzca sus datos para iniciar sesión.</h3>
+            <div class="mt-4">
+              <div class="input-group">
+                <label for="username">Usuario <span class="letter_red">*</span></label>
+                <input class="input-style type="text" name="username" value="" placeholder="Usuario" required/>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="input-group">
+                <label for="password">Contraseña <span class="letter_red">*</span></label>
+                <input class="input-style" type="password" name="password" value="" placeholder="Contraseña" required/>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="input-group">
+              <input
+                name="remember"
+                type="checkbox"å
+                class="customcontrol-input"
+                id="customControlInline"
+              />
+              <h7 class="mx-2 text-white custom-control-label" for="customControlInline"
+                >Recuerdame</
+              >
+              </div>
+            </div>
+            <div class="mt-4">
+            <button class="btn login_btn button red" type="submit">Acceder</button>
+          </div>
+          </form>
+        </div>   
+        `
+    )
+  }
+
+  // Metodo con el que dotaremos de funcionalidad a nuestro formulario capturando el evento submit
+  bindLogin(handler) {
+    // Recogemos el formulario mediante el nombre
+    const form = document.forms.fLogin;
+    // Capturamos el evento submit y le pasamos los valores al handler que recibimos por parametro
+    form.addEventListener('submit', (event) => {
+      handler(form.username.value, form.password.value, form.remember.checked);
+      event.preventDefault();
+    });
+  }
+
+  // Metodo con el que le mostraremos al usuario el mensaje de que el nombre o contraseña introducidos no es correcto
+  showInvalidUserMessage() {
+    // Añadimos en la zona centroa el mensaje
+    this.centralZone.insertAdjacentHTML('beforeend', `
+      <div class="container my-3">
+        <div class="alert alert-warning" role="alert">
+          <strong>Usuario y contraseña incorrectos. Inténtelo de nuevo</strong>
+        </div>
+      </div>
+      `);
+    // Reseteamos el formulario
+    document.forms.fLogin.reset();
+    // Ponemos el foco en el input de username
+    document.forms.fLogin.username.focus();
+  }
+
+  // Metodo con el que mostraremos el perfil del usuario cuando este registrado
+  showAuthUserProfile(user) {
+    // Cogemos el contenedor donde tenemos el identificate
+    const userArea = document.getElementById('userArea');
+    // Eliminamos el contenido
+    userArea.replaceChildren();
+    // Le ponemos el nuevo contenido a nuestro contenedor
+    userArea.insertAdjacentHTML('afterbegin',
+      `
+        <div class="account d-flex mx-2 flex-column text-white">
+        Bienvenido, ${user.username} 
+        <a id="aCloseSession" href="#"><span class="letter_red">Cerrar sesión</span></a>
+        </div>
+      `
+    );
+  }
+
+  // Metodo con el que capturamos el evento de click del cerrar sesion
+  // y le dotamos de su respectiva funcionalidad
+  bindCloseSession(handler) {
+    document.getElementById('aCloseSession').addEventListener('click', (event) => {
+      handler();
+      event.preventDefault();
+    });
+  }
+
+  // Metodo con el que reemplazamos la accion de inicio de nuestro history
+  initHistory() {
+    history.replaceState({ action: 'init' }, null);
+  }
+
+  // Metodo con el que guardaremos una cookie con el nombre del usuario que inicio sesion
+  setUserCookie(user) {
+    setCookie('activeUser', user.username, 1);
+  }
+
+  // Metodo con el que eliminaremos la cookie de un usuario activo
+  deleteUserCookie() {
+    setCookie('activeUser', '', 0);
+  }
+
+  // Metodo con el que borraremos el menu de administracion que se muestra cunado hay un usuario logeado
+  removeAdminMenu() {
+    const adminMenu = document.getElementById('navAdmin');
+    if (adminMenu) adminMenu.parentElement.remove();
+  }
+
+}
 // Exportamos nuestra vista
 export default StreamManagerView;

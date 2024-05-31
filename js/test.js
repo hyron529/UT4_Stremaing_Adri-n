@@ -21,7 +21,9 @@ const historyActions = {
     },
     actorInNav: (event) => {
         streamManagerApp.handleProdcutionActor(event.state.actor)
-    }
+    },
+    login: () => {RestauranteManagerApp.handleLoginForm()}
+    // Navegacion del formulario
 }
 
 // Definimos el popstate, con el que controlamos cuando cambia el historial de navegacion, 
